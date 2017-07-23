@@ -31,11 +31,11 @@ RSpec.describe UsersController, type: :controller do
       sign_in_user
       before { get :show, params: { id: users.first } }
 
-      it 'does not assign requested question to @question' do
+      it 'assigns requested question to @question' do
         expect(assigns(:user)).to eq users.first
       end
 
-      it 'does not renders show view' do
+      it 'renders show view' do
         expect(response).to render_template :show
       end
     end
