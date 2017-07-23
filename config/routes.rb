@@ -8,6 +8,8 @@ end
   resources :users, only: [:index, :show]
 
   namespace :admin do
-    resources :users
+    resources :users do
+      get :send_info, on: :member
+    end
   end
 end

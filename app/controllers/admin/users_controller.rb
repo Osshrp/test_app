@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::BaseController
-  before_action :set_user, only: [:show,:edit, :update, :destroy]
+  before_action :set_user, only: [:show,:edit, :update, :destroy, :send_info]
 
   def index
     respond_with(@users = User.all)
@@ -28,6 +28,11 @@ class Admin::UsersController < Admin::BaseController
 
   def destroy
     respond_with(:admin, @user.destroy)
+  end
+
+  def send_info
+    @user.create_and_send_pdf
+    redirect_to root_path
   end
 
   private
