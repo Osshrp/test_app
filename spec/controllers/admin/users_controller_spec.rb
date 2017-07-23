@@ -78,4 +78,29 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    sign_in_user(admin: true)
+    let!(:user) { create(:user) }
+
+    context 'with valid attributes' do
+      it 'assigns the requested usert to @user' do
+        patch :update, params: { id: user, user: attributes_for(:user) }
+        expect(assigns(:user)).to eq user
+      end
+
+      it 'change question attributes' do
+        patch :update, params: { id: user,
+          user: { bio: 'new_bio', email: 'new_email@test.com' } }
+        user.reload
+        expect(user.email).to eq 'new_email@test.com'
+        expect(user.bio).to eq 'new_bio'
+      end
+
+      it 'redirects to updated @user' do
+        patch :update, params: { id: user, user: attributes_for(:user) }
+        expect(response).to render_template :update
+      end
+    end
+  end
 end

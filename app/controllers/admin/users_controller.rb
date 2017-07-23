@@ -1,5 +1,5 @@
 class Admin::UsersController < Admin::BaseController
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show,:edit, :update, :destroy]
 
   def index
     respond_with(@users = User.all)
@@ -14,16 +14,20 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def create
-    respond_with(@user = User.create(user_params))
+    respond_with(:admin, @user = User.create(user_params))
+  end
+
+  def edit
+    respond_with(:admin, @user)
   end
 
   def update
     @user.update(user_params)
-    respond_with(@user)
+    respond_with(:admin, @user)
   end
 
   def destroy
-    respond_with(@user.destroy)
+    respond_with(:admin, @user.destroy)
   end
 
   private
