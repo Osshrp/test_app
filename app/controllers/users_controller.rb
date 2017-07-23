@@ -2,10 +2,10 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, except: [:index]
 
   def index
-    @users = User.all
+    respond_with(@users = User.all)
   end
 
   def show
-    @user = User.find(params[:id])
+    respond_with(@user = User.find(params[:id]))
   end
 end

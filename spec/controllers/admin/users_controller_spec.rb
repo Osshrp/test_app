@@ -55,4 +55,27 @@ RSpec.describe Admin::UsersController, type: :controller do
       end
     end
   end
+
+  describe 'GET #new' do
+    sign_in_user(admin: true)
+    before { get :new }
+    it 'assigns a new User to @user' do
+      expect(assigns(:user)).to be_a_new(User)
+    end
+
+    it 'renders new view' do
+      expect(response).to render_template :new
+    end
+  end
+
+  describe 'POST #create' do
+    context 'with valid attributes' do
+      sign_in_user(admin: true)
+
+      it 'creates user' do
+        expect { post :create, params: { user: attributes_for(:user) } }
+          .to change(User, :count).by(1)
+      end
+    end
+  end
 end
