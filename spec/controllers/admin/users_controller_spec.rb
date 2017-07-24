@@ -69,37 +69,89 @@ RSpec.describe Admin::UsersController, type: :controller do
   end
 
   describe 'POST #create' do
-    context 'with valid attributes' do
-      sign_in_user(admin: true)
+
+    context 'admin tries to update user' do
+      context 'with valid attributes' do
+        sign_in_user(admin: true)
+
+        it 'creates user' do
+          expect { post :create, params: { user: attributes_for(:user) } }
+            .to change(User, :count).by(1)
+        end
+      end
+    end
+
+    context 'ordinary user tries to update user' do
+      sign_in_user
 
       it 'creates user' do
         expect { post :create, params: { user: attributes_for(:user) } }
-          .to change(User, :count).by(1)
+          .to_not change(User, :count)
       end
     end
   end
 
   describe 'PATCH #update' do
-    sign_in_user(admin: true)
     let!(:user) { create(:user) }
 
-    context 'with valid attributes' do
-      it 'assigns the requested usert to @user' do
-        patch :update, params: { id: user, user: attributes_for(:user) }
-        expect(assigns(:user)).to eq user
-      end
+    context 'admin tries to update user' do
+      sign_in_user(admin: true)
+      context 'with valid attributes' do
+        sign_in_user(admin: true)
+        it 'assigns the requested usert to @user' do
+          patch :update, params: { id: user, user: attributes_for(:user) }
+          expect(assigns(:user)).to eq user
+        end
 
-      it 'change question attributes' do
+        it 'change user attributes' do
+          patch :update, params: { id: user,
+            user: { bio: 'new_bio', email: 'new_email@test.com' } }
+          user.reload
+          expect(user.email).to eq 'new_email@test.com'
+          expect(user.bio).to eq 'new_bio'
+        end
+      end
+    end
+
+    context 'ordinary user tries to update user' do
+      sign_in_user
+      it 'change user attributes' do
         patch :update, params: { id: user,
           user: { bio: 'new_bio', email: 'new_email@test.com' } }
         user.reload
-        expect(user.email).to eq 'new_email@test.com'
-        expect(user.bio).to eq 'new_bio'
+        expect(user.email).to_not eq 'new_email@test.com'
+        expect(user.bio).to_not eq 'new_bio'
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:user) { create(:user) }
+
+    context 'admin tries to delete user' do
+      sign_in_user(admin: true)
+
+      it 'deletes user' do
+        expect { delete :destroy, params: { id: user } }
+          .to change(User, :count).by(-1)
       end
 
-      it 'redirects to updated @user' do
-        patch :update, params: { id: user, user: attributes_for(:user) }
-        expect(response).to render_template :update
+      it 'redirects to index view' do
+        delete :destroy, params: { id: user }
+        expect(response).to redirect_to admin_users_path
+      end
+    end
+
+    context 'ordinary user tries to delete user' do
+      sign_in_user
+      it 'does not deletes user' do
+        expect { delete :destroy, params: { id: user } }
+          .to_not change(User, :count)
+      end
+
+      it 'redirects to users index view' do
+        delete :destroy, params: { id: user }
+        expect(response).to redirect_to users_path
       end
     end
   end
