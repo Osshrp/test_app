@@ -1,19 +1,22 @@
 require 'rails_helper'
 
-feature 'Create user', %q{
-  In order to create new user
+feature 'Edit user', %q{
+  In order to change new user
   as an admin
-  I need to be able to create user
+  I need to be able to edit user
 } do
 
   given(:admin) { create(:user, admin: true) }
-  given(:user) { create(:user) }
+  given!(:user) { create(:user) }
 
-  scenario 'Admin creates question' do
+  scenario 'Admin edits question' do
     sign_in(admin)
 
-    click_on 'Create new user'
-    fill_in 'Email', with: 'test@test.com'
+    within ".user-#{user.id}" do
+      click_on 'Edit'
+    end
+
+    fill_in 'Email', with: 'new@test.com'
     fill_in 'Name', with: 'Bill'
     fill_in 'Birth date', with: '2017-11-03'
     fill_in 'Bio', with: 'string'
@@ -22,7 +25,7 @@ feature 'Create user', %q{
     click_on 'Create'
 
     within '.user' do
-      expect(page).to have_content 'test@test.com'
+      expect(page).to have_content 'new@test.com'
       expect(page).to have_content 'Bill'
       expect(page).to have_content '2017-11-03'
       expect(page).to have_content 'string'

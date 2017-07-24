@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe CreatePdfJob, type: :job do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  let(:user) { create(:user) }
+
+  it 'sends user info' do
+    expect(UserInfoMailer).to receive(:notify).and_call_original
+    CreatePdfJob.perform_now(user)
+  end
 end

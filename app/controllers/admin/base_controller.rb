@@ -7,7 +7,7 @@ class Admin::BaseController < ApplicationController
   protected
 
   def check_admin
-    redirect_to root_path,
+    redirect_to users_path,
       alert: 'You have no rights to access to that page' unless current_user.admin?
   end
 end

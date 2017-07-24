@@ -10,6 +10,6 @@ class User < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
 
   def create_and_send_pdf
-    CreatePdfJob.perform_now(self)
+    CreatePdfJob.perform_later(self)
   end
 end

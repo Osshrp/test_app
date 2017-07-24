@@ -1,13 +1,2 @@
-h1
-  = "User #{@user.name}"
--  if @user.avatar?
-  p Avatar:
-  = image_tag(@user.avatar, alt: 'Avatar')
-p
-  = "Email: #{@user.email}"
-p
-  = "Full name: #{@user.name}"
-p
-  = "Birth date: #{@user.birth_date}"
-p
-  = "Bio: #{@user.bio}"
+h2 = "User #{@user.name}"
+=render 'common/user', user: @user

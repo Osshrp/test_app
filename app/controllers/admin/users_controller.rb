@@ -32,7 +32,7 @@ class Admin::UsersController < Admin::BaseController
 
   def send_info
     @user.create_and_send_pdf
-    flash[:notice] = 'PDF file will be created and send via email later'
+    flash[:notice] = 'PDF file will be create and send via email later'
     redirect_to admin_user_path(@user)
   end
 

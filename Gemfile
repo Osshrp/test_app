@@ -43,6 +43,7 @@ gem 'responders', '~> 2.0'
 gem 'sidekiq'
 gem 'prawn-rails'
 gem 'carrierwave', '~> 1.0'
+gem 'sinatra', '>= 1.3.0', require: nil
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -57,6 +58,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'launchy'
+  gem 'pdf-inspector', require: "pdf/inspector"
 end
 
 group :development do
