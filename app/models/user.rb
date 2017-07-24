@@ -7,6 +7,7 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :birth_date, presence: true
   validates :bio, presence: true
+  mount_uploader :avatar, AvatarUploader
 
   def create_and_send_pdf
     CreatePdfJob.perform_now(self)

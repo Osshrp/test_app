@@ -1,9 +1,8 @@
-h1 User profile:
-p
-  = "Email: #{@user.email}"
-p
-  = "Full name: #{@user.name}"
-p
-  = "Birth date: #{@user.birth_date}"
-p
-  = "Bio: #{@user.bio}"
+h1 = "Welcome #{@user.name}"
+- if @user.avatar?
+  p You avatar:
+  = image_tag(@user.avatar, alt: 'Avatar')
+p = "Email: #{@user.email}"
+p = "Full name: #{@user.name}"
+p = "Birth date: #{@user.birth_date}"
+p = "Bio: #{@user.bio}"

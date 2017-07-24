@@ -1,16 +1,16 @@
 class Admin::UsersController < Admin::BaseController
-  before_action :set_user, only: [:show,:edit, :update, :destroy, :send_info]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :send_info]
 
   def index
-    respond_with(@users = User.all)
+    @users = User.all
   end
 
   def show
-    respond_with(@user)
+    respond_with(:admin, @user)
   end
 
   def new
-    respond_with(@user = User.new)
+    respond_with(:admin, @user = User.new)
   end
 
   def create
@@ -32,7 +32,8 @@ class Admin::UsersController < Admin::BaseController
 
   def send_info
     @user.create_and_send_pdf
-    redirect_to root_path
+    flash[:notice] = 'PDF file will be created and send via email later'
+    redirect_to admin_user_path(@user)
   end
 
   private
@@ -43,6 +44,6 @@ class Admin::UsersController < Admin::BaseController
 
   def user_params
     params.require(:user).permit(:name, :bio, :birth_date,
-      :email, :password, :password_confirmation)
+      :email, :password, :password_confirmation, :avatar)
   end
 end
