@@ -58,7 +58,6 @@ group :test do
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'launchy'
-  gem 'pdf-inspector', require: "pdf/inspector"
 end
 
 group :development do
