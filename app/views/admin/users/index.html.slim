@@ -1,0 +1,5 @@
+h2 Users
+ul
+  = render @users
+- if current_user.admin?
+  = link_to 'Create new user', new_admin_user_path

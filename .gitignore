@@ -15,5 +15,10 @@
 
 # Ignore Byebug command history file.
 .byebug_history
-/public/uploads
+
+config/database.yml
+.ruby-gemset
+
+/public/uploads/*
+dump.rdb
 .DS_Store

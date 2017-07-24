@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title
+      | TestApp admin dashboard
+    = csrf_meta_tags
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    .navbar.navbar-default.navbar-static-top
+      .container
+        .navbar-header
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              = link_to 'Home', admin_users_path
+            - if user_signed_in?
+              li= link_to current_user.email, admin_user_path(current_user)
+              li= link_to 'Sign out', destroy_user_session_path, method: :delete
+            - else
+              li= link_to 'Sign in', new_user_session_path
+    .container
+      .row
+        .col-lg-9
+          = bootstrap_flash
+          h1 Admin dashboard
+          = yield
